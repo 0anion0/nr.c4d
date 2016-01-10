@@ -1,0 +1,4 @@
+*.py[ocd]
+*.egg-info
+build/
+dist/
