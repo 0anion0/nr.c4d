@@ -17,17 +17,45 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-'''
-c4dtools.structures.ordereddict
-===============================
-
-This module provides the `OrderedDict` class.
-'''
-
 
 class OrderedDict(object):
-  ''' An ordered dictionary that can treat non-hashable types. It is
-  implemented as a list so its access time is ``O(n)``. '''
+  ''' This class implements a dictionary that can treat non-hashable
+  datatypes as keys. It is implemented as a list of key/value pairs,
+  thus it is very slow compared to a traditional hash-based dictionary.
+
+  Access times are:
+
+  ==== ======= =====
+  Best Average Worst
+  ==== ======= =====
+  O(1) O(n)    O(n)
+  ==== ======= =====
+
+  Example:
+
+  .. code-block:: python
+
+    import c4d
+    from nr.c4d.utils import walk
+    from nr.c4d.structures.ordereddict import OrderedDict
+
+    def main():
+      mats = OrderedDict()
+      for mat in doc.GetMaterials():
+        mats[mat] = 0
+      for obj in walk(doc.GetObjects()):
+        for tag in obj.GetTags():
+          if tag.CheckType(c4d.Ttexture):
+            mat = tag[c4d.TEXTURETAG_MATERIAL]
+            count = mats.setdefault(mat, 0)
+            mats[mat] = count + 1
+      for mat, count in mats.iteritems():
+        if count == 0:
+          print "Unused Material:", mat.GetName()
+
+    if __name__ == '__main__':
+      main()
+  '''
 
   def __init__(self, iterable=None):
     super(OrderedDict, self).__init__()

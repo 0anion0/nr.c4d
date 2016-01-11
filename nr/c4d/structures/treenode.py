@@ -27,6 +27,9 @@ build custom hierarchical datastructures.
 
 
 class TreeNode(object):
+  ''' This class implements a tree datastructure very similar to
+  the :class:`c4d.BaseList2D` class. It is most commonly used to
+  represent a tree in a :class:`c4d.gui.TreeViewGui`. '''
 
   def __init__(self):
     super(TreeNode, self).__init__()

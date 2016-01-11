@@ -181,6 +181,22 @@ def load_bitmap(filename):
   return bmp
 
 
+def walk(node):
+  ''' Iterator for walking down the hierarchy of *node*. If *node*
+  is an iterable, it's items are yielded before going down for each
+  node. '''
+
+  if isinstance(node, c4d.C4DAtom):
+    yield node
+    for child in node.GetChildren():
+      for __ in walk(child):
+        yield __
+  else:
+    for node in node:
+      for __ in walk(node):
+        yield __
+
+
 class UndoHandler(object):
   ''' The *UndoHandler* is a useful class to temporarily apply changes
   to components of Cinema 4D objects, tags, materials, nodes, documents

@@ -6,6 +6,8 @@ Contents:
 .. toctree::
   :maxdepth: 2
 
+  nr.c4d.structures
+
 .. automodule:: nr.c4d
   :members:
   :undoc-members:
@@ -27,14 +29,6 @@ Contents:
   :undoc-members:
 
 .. automodule:: nr.c4d.structures
-  :members:
-  :undoc-members:
-
-.. automodule:: nr.c4d.structures.ordereddict
-  :members:
-  :undoc-members:
-
-.. automodule:: nr.c4d.structures.treenode
   :members:
   :undoc-members:
 
