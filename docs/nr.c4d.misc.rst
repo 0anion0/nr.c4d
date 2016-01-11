@@ -16,3 +16,10 @@
 .. automodule:: nr.c4d.misc.normalalign
   :members:
   :undoc-members:
+
+:mod:`nr.c4d.misc.paramng`
+------------------------------
+
+.. automodule:: nr.c4d.misc.paramng
+  :members:
+  :undoc-members:

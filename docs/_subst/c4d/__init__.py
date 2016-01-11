@@ -14,4 +14,10 @@ class Matrix(_unconst):
 class Vector(_unconst):
   pass
 
+class BaseContainer(_unconst):
+  pass
+
+def GetC4DVersion():
+  return 13000
+
 from . import gui
