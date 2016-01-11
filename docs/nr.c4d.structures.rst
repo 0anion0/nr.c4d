@@ -1,3 +1,6 @@
+:mod:`nr.c4d.structures`
+========================
+
 .. automodule:: nr.c4d.structures
 
 OrderedDict Objects
