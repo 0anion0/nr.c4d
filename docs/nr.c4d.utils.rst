@@ -41,6 +41,11 @@ Object Helpers
 .. autofunction:: nr.c4d.utils.duplicate_object
 .. autofunction:: nr.c4d.utils.move_axis
 
+PolygonObjectInfo Objects
++++++++++++++++++++++++++
+
+.. autoclass:: nr.c4d.utils.PolygonObjectInfo
+
 Bitmap Helpers
 --------------
 

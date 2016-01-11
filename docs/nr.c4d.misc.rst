@@ -9,3 +9,10 @@
 .. automodule:: nr.c4d.misc.aabb
   :members:
   :undoc-members:
+
+:mod:`nr.c4d.misc.normalalign`
+------------------------------
+
+.. automodule:: nr.c4d.misc.normalalign
+  :members:
+  :undoc-members:

@@ -487,6 +487,111 @@ def move_axis(obj, new_axis):
   obj.SetMl(new_axis)
 
 
+class PolygonObjectInfo(object):
+  ''' This class stores the points and polygons of a :class:`c4d.PolygonObject`
+  and computes the normals and polygon middle points.
+
+  :param op: The :class:`c4d.PolygonObject` to initialize the object for.
+  :param points: True if the object points should be stored.
+  :param polygons: True if the object polygons should be stored.
+  :param normals: True if the object normals should be computed.
+  :param midpoints: True if the polygon midpoints should be computed.
+  :param vertex_normals: True if the vertex normals should be computed
+    (implies the *normals* parameter).
+
+  .. attribute:: points
+
+    The points of the object.
+
+  .. attribute:: polygons
+
+    The polygons of the object.
+
+  .. attribute:: normals
+
+    The polygon normals, if enabled.
+
+  .. attribute:: vertex_normals
+
+    The vertex normals, if enabled.
+
+  .. attribute:: midpoints
+
+    The polygon midpoints, if enabled.
+
+  .. attribute:: pointcount
+
+  .. attribute:: polycount
+  '''
+
+  def __init__(self, op, points=False, polygons=False, normals=False,
+      midpoints=False, vertex_normals=False):
+    super(PolygonObjectInfo, self).__init__()
+
+    self.points = None
+    self.polygons = None
+    self.normals = None
+    self.vertex_normals = None
+    self.midpoints = None
+
+    self.pointcount = op.GetPointCount()
+    self.polycount = op.GetPolygonCount()
+
+
+    if points or normals or vertex_normals or midpoints:
+      self.points = op.GetAllPoints()
+
+    if polygons or normals or vertex_normals or midpoints:
+      self.polygons = op.GetAllPolygons()
+
+    if normals or vertex_normals:
+      self.normals = [None] * self.polycount
+    if vertex_normals:
+      self.vertex_normals = [
+        [c4d.Vector(), 0] for __ in xrange(self.pointcount)]
+
+    if midpoints:
+      self.midpoints = [None] * self.polycount
+
+    if normals or vertex_normals or midpoints:
+      m3 = 1.0 / 3.0
+      m4 = 1.0 / 4.0
+      for i, p in enumerate(self.polygons):
+        a, b, c, d = self.points[p.a], self.points[p.b], self.points[p.c], self.points[p.d]
+
+        if normals or vertex_normals:
+          n = (a - b).Cross(a - d)
+          n.Normalize()
+          self.normals[i] = n
+
+        if midpoints:
+          m = a + b + c
+          if p.c == p.d:
+            m *= m3
+          else:
+            m += d
+            m *= m4
+          self.midpoints[i] = m
+
+    if vertex_normals:
+      def _add(index, n):
+        data = self.vertex_normals[index]
+        data[0] += n
+        data[1] += index
+      for n, p in itertools.izip(self.normals, self.polygons):
+        _add(p.a, n)
+        _add(p.b, n)
+        _add(p.c, n)
+        if p.c != p.d:
+          _add(p.d, n)
+      self.vertex_normals[:] = (x.GetNormalized() for x in self.vertex_normals)
+
+    if not points:
+      self.points = None
+    if not polygons:
+      self.polygons = None
+
+
 # Bitmaps
 
 def load_bitmap(filename):
