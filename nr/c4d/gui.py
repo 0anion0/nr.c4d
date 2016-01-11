@@ -1,3 +1,5 @@
+# -*- coding: utf8; -*-
+#
 # Copyright (C) 2015  Niklas Rosenstein
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy

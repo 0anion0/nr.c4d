@@ -1,3 +1,5 @@
+# -*- coding: utf8; -*-
+#
 # This is a namespace package.
 try:
   import pkg_resources

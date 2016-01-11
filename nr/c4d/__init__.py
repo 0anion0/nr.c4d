@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf8; -*-
 #
 # Copyright (C) 2015 Niklas Rosenstein
 #
