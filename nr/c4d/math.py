@@ -20,6 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import c4d
+
+
 def closest_point_on_line(a, b, p):
   ''' Returns the closest point to *p* which is on the line through the
   points *a* and *b*. :class:`ZeroDivisionError` is raised if *a* and
@@ -49,7 +52,7 @@ def line_line_intersection(p1, d1, p2, d2, precision=1.0e-7):
 
   a = d1.Cross(d2)
   b = (p2 - p1).Cross(d2)
-  c = Vector(b.x / a.x, b.y / a.y, b.z / a.z)
+  c = c4d.Vector(b.x / a.x, b.y / a.y, b.z / a.z)
 
   # Now check if the resulting deviation can be accepted.
   ref = c.x
@@ -74,7 +77,7 @@ def vmin(a, b, copy=True):
     '''
 
     if copy:
-      c = Vector(a)
+      c = c4d.Vector(a)
     else:
       c = a
     if b.x < a.x: c.x = b.x
@@ -95,7 +98,7 @@ def vmax(a, b, copy=True):
     '''
 
     if copy:
-      c = Vector(a)
+      c = c4d.Vector(a)
     else:
       c = a
     if b.x > a.x: c.x = b.x
