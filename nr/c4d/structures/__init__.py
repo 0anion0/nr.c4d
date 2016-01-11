@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 '''
-:mod:`nr.c4d.structures`
-========================
-
 This package provides useful data structures that are commonly used
 in C4D plugin development.
 '''

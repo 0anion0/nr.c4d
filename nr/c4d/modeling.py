@@ -35,13 +35,13 @@ class Kernel(object):
   ''' The *Kernel* class provides all modeling functionality. Some
   modeling functions require a document to operate in, others may
   even require it to be the active Cinema 4D document as it may use
-  :meth:`c4d.CallCommand()` to achieve its goal. Yet, the *Kernel*
+  :func:`c4d.CallCommand` to achieve its goal. Yet, the *Kernel*
   does not necessarily be initialized with a document. You will be
   able to use all functions that do not require it. Some methods are
   even static as they require no specialised context.
 
-  To create a temporary document, you can use the :class:`c4dtools.
-  utils.TemporaryDocument` class. '''
+  To create a temporary document, you should use the
+  :class:`nr.c4d.utils.TemporaryDocument` class. '''
 
   def __init__(self, doc=None):
     super(Kernel, self).__init__()
@@ -54,9 +54,8 @@ class Kernel(object):
   def triangulate(obj):
     ''' Triangulates the PolygonObject *obj* in place.
 
-    Raises:
-      TypeError: If *obj* is not a PolygonObject.
-      Error: When an unexpected error occurs.
+    :raise TypeError: If *obj* is not a PolygonObject.
+    :raise Error: When an unexpected error occurs.
     '''
 
     if not isinstance(obj, c4d.PolygonObject):
@@ -70,9 +69,8 @@ class Kernel(object):
   def untriangulate(obj, angle_rad=c4d.utils.Rad(0.1)):
     ''' Untriangulates the PolygonObject *obj* in place.
 
-    Raises:
-      TypeError: If *obj* is not a PolygonObject.
-      Error: When an unexpected error occurs.
+    :raise TypeError: If *obj* is not a PolygonObject.
+    :raise Error: When an unexpected error occurs.
     '''
 
     if not isinstance(obj, c4d.PolygonObject):
@@ -93,9 +91,8 @@ class Kernel(object):
     "Optimize" command. The parameters to this method reflect
     the parameters of the Cinema 4D command.
 
-    Raises:
-      TypeError: If *obj* is not a PolygonObject.
-      Error: When an unexpected error occurs.
+    :raise TypeError: If *obj* is not a PolygonObject.
+    :raise Error: When an unexpected error occurs.
     '''
 
     if not isinstance(obj, c4d.PolygonObject):
@@ -129,16 +126,16 @@ class Kernel(object):
     you want to keep links (eg. texture tag material links), the
     *Kernel* should have been initialized with the objects document.
 
-    Note that all parent objects of *obj* will be moved with it as
-    it may have influence on the outcome (eg. deformers applied on
-    a hierarchy in a Null-Object).
+    .. note:: All parent objects of *obj* will be moved with it as
+      it may have influence on the outcome (eg. deformers applied
+      on a hierarchy in a Null-Object).
 
-    Requires:
+    :requires:
       - The *Kernel* must be initialized with a document.
-    Raises:
-      RuntimeError: If the *Kernel* was not initialized with a document.
-      TypeError: If *obj* is not a BaseObject.
-      Error: When an unexpected error occurs.
+    :raise RuntimeError: If the *Kernel* was not initialized
+      with a document.
+    :raise TypeError: If *obj* is not a BaseObject.
+    :raise Error: When an unexpected error occurs.
     '''
 
     self._assert_doc('current_state_to_object')
@@ -164,22 +161,26 @@ class Kernel(object):
     into a single object using the Cinema 4D "Connect Objects"
     command.
 
-    > __Important__: The returned object axis is located at the world
-    > center. If you want to mimic the real "Connect Objects" command
-    > in that it positions the axis at the location of the first
-    > object in the list, use the :meth:`move_axis` method.
-
     This method will move *all* objects to the internal document
     temporarily before joining them into one object.
 
-    Requires:
+    :param objects: A list of :class:`c4d.BaseObject`.
+    :return: The new connected object.
+    :requires:
       - The *Kernel* must be initialized with a document.
-    Raises:
-      RuntimeError: If the *Kernel* was not initialized with a document.
-      TypeError:
+    :raise RuntimeError: If the *Kernel* was not initialized
+      with a document.
+    :raise TypeError:
         - If *objects* is not iterable
         - If an element of *objects* is not a BaseObject
-      Error: When an unexpected error occurs.
+    :raise Error: When an unexpected error occurs.
+
+
+    .. important:: The returned object axis is located at the world
+      center. If you want to mimic the real "Connect Objects" command
+      in that it positions the axis at the location of the first
+      object in the list, use the :func:`nr.c4d.utils.move_axis`
+      function.
     '''
 
     self._assert_doc('connect_objects')
@@ -224,17 +225,16 @@ class Kernel(object):
     deformer. :meth:`current_state_to_object` is used to obtain
     the deformed state of *obj*.
 
-    > __Important__: In rare cases, the returned object can be a null
-    > object even though the input object was a polygon object. In that
-    > case, the null object contains the reduced polygon object as a
-    > child.
-
-    Requires:
+    :requires:
       - The *Kernel* must be initialized with a document.
-    Raises:
-      RuntimeError: If the *Kernel* was not initialized with a document.
-      TypeError: If *obj* is not a BaseObject.
-      Error: When an unexpected error occurs.
+    :raise RuntimeError: If the *Kernel* was not initialized with a document.
+    :raise TypeError: If *obj* is not a BaseObject.
+    :raise Error: When an unexpected error occurs.
+
+    .. important:: In rare cases, the returned object can be a null
+      object even though the input object was a polygon object. In that
+      case, the null object contains the reduced polygon object as a
+      child.
     '''
 
     self._assert_doc('polygon_reduction')
@@ -277,27 +277,29 @@ class Kernel(object):
     resulting object hierarchy. The method parameters reflect
     the "Boole Object" parameters.
 
-    Arguments:
-      obja:
-      objb:
-      boole_type:
-        - `c4d.BOOLEOBJECT_TYPE_UNION`
-        - `c4d.BOOLEOBJECT_TYPE_SUBTRACT`
-        - `c4d.BOOLEOBJECT_TYPE_INTERSECT`
-        - `c4d.BOOLEOBJECT_TYPE_WITHOUT`
-      high_quality:
-      single_object:
-      hide_new_edges:
-      break_cut_edges:
-      sel_cut_edges:
-      optimize_level:
-    Requires:
+    :param obja: The first object for the boole operation.
+    :param objb: The second object for the boole operation.
+    :param boole_type: One of the boole modes:
+
+      - :data:`c4d.BOOLEOBJECT_TYPE_UNION`
+      - :data:`c4d.BOOLEOBJECT_TYPE_SUBTRACT`
+      - :data:`c4d.BOOLEOBJECT_TYPE_INTERSECT`
+      - :data:`c4d.BOOLEOBJECT_TYPE_WITHOUT`
+    :param high_quality: See Boole Object documentation.
+    :param single_object: See Boole Object documentation.
+    :param hide_new_edges: See Boole Object documentation.
+    :param break_cut_edges: See Boole Object documentation.
+    :param sel_cut_edges: See Boole Object documentation.
+    :param optimize_level: See Boole Object documentation.
+    :return: The result of the Boole operation converted using
+      :meth:`current_state_to_object`.
+    :requires:
       - The *Kernel* must be initialized with a document.
-    Raises:
-      RuntimeError: If the *Kernel* was not initialized with a document.
-      TypeError: If *obja* or *objb* is not a BaseObject.
-      ValueError: If *boole_type* is invalid.
-      Error: When an unexpected error occurs.
+    :raise RuntimeError: If the *Kernel* was not initialized
+      with a document.
+    :raise TypeError: If *obja* or *objb* is not a BaseObject.
+    :raise ValueError: If *boole_type* is invalid.
+    :raise Error: When an unexpected error occurs.
     '''
 
     self._assert_doc('boole')

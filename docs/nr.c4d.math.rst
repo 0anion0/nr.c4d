@@ -2,5 +2,8 @@
 ==================
 
 .. automodule:: nr.c4d.math
-  :members:
-  :undoc-members:
+
+Functions
+---------
+
+.. autofunction:: nr.c4d.math.closest_point_on_line

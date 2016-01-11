@@ -23,8 +23,8 @@ import warnings
 
 
 def find_root(node):
-  ''' Returns the top-most parent node of *node*s hierarchy, or the
-  *node* itself if it is the top-most node. '''
+  ''' Returns the top-most parent node of ``node`` s hierarchy, or the
+  ``node`` itself if it is the top-most node. '''
 
   parent = node.GetUp()
   while parent:
@@ -70,14 +70,11 @@ def duplicate_object(obj, n=None):
   function uses a modeling command to allow the translation of link-goals
   which is not implemented in Python.
 
-  Arguments:
-    obj: The `c4d.BaseObject` to clone.
-    n: None if a single clone should be created and returned
-      as is, a number otherwise which will return a list of the object.
-  Returns:
-    A list of the cloned objects or a single object if *n* was passed None.
-  Raises:
-    RuntimeError: If *obj* is not inserted in a `c4d.BaseDocument`
+  :param obj: The :class:`c4d.BaseObject` to clone.
+  :param n: None if a single clone should be created and returned
+    as is, a number otherwise which will return a list of the object.
+  :return: A list of the cloned objects or a single object if *n* was None.
+  :raise RuntimeError: If *obj* is not inserted in a `c4d.BaseDocument`
     or if the objects could not be cloned.
   '''
 
@@ -112,8 +109,10 @@ def iter_timeline(doc, start, end):
   while updating the Cinema 4D document *doc* timeline and editor view.
   All expressions and animations are being evaluated every frame.
 
-      for frame in iter_timeline(doc, 0, 100):
-        pass  # process current frame here
+  .. code-block:: python
+
+    for frame in iter_timeline(doc, 0, 100):
+      pass  # process current frame here
 
   Both *start* and *end* can be either :class:`c4d.BaseTime` or
   frame numbers. *end* is inclusive. '''
@@ -148,13 +147,14 @@ def handle_file_select(dialog, param, type=c4d.FILESELECTTYPE_ANYTHING,
   Cinema 4D filename widget is a little buggy, and using this function
   is convenient if your dialog uses a string and button widget instead.
 
-  Arguments:
-    dialog (c4d.gui.GeDialog)
-    param (int): The id of the string widget.
-    type (int): Passed to `c4d.storage.LoadDialog`
-    title (str): ~~
-    flags (int): ~~
-    force_suffix (str): ~~
+  :param dialog: :class:`c4d.gui.GeDialog`
+  :param param: :class:`int` -- The id of the string widget.
+  :param type: :class:`int` -- Passed to `c4d.storage.LoadDialog`
+  :param title: :class:`str` -- See :func:`c4d.storage.LoadDialog`
+  :param flags: :class:`int` -- See :func:`c4d.storage.LoadDialog`
+  :param force_suffix: :class:`str` -- See :func:`c4d.storage.LoadDialog`
+  :return: True if the file selection was handled and the parameter
+    set, False if not.
   '''
 
   def_path = dialog.GetString(param)
@@ -169,16 +169,33 @@ def load_bitmap(filename):
   ''' Loads a `c4d.bitmaps.BaseBitmap` from the specified *filename*
   and returns it or None if the file could not be loaded.
 
-  Arguments:
-    filename (str): The file to load the image from.
-  Returns:
-    c4d.BaseBitmap: The loaded bitmap or None.
+  :param filename: :class:`str` -- The file to load the image from.
+  :return: :class:`c4d.BaseBitmap` -- The loaded bitmap or None.
   '''
 
   bmp = c4d.bitmaps.BaseBitmap()
   if bmp.InitWith(filename)[0] != c4d.IMAGERESULT_OK:
     return None
   return bmp
+
+
+def move_axis(obj, new_matrix=c4d.Matrix()):
+  ''' Normalize the axis of an object by adjusting the local
+  matrix of the child objects and, if *obj* is a polygon object,
+  it's points. Simulates the 'Axis Move' mode in Cinema.
+
+  :param obj: :class:`c4d.BaseObject`
+  :param new_matrix: :class:`c4d.Matrix` '''
+
+  mat = ~new_matrix * obj.GetMl()
+  if obj.CheckType(c4d.Opoint):
+    points = [p * mat for p in obj.GetAllPoints()]
+    obj.SetAllPoints(points)
+    obj.Message(c4d.MSG_UPDATE)
+
+  for child in obj.GetChildren():
+    child.SetMl(mat * child.GetMl())
+  obj.SetMl(new_matrix)
 
 
 def walk(node):
@@ -227,7 +244,7 @@ class UndoHandler(object):
     [f() for f in reversed(flist)]
 
   def custom(self, target):
-    ''' Adds a custom callable object that is invoked when `revert()`
+    ''' Adds a custom callable object that is invoked when :meth:`revert`
     is called. It must accept no arguments. '''
 
     if not callable(target):
@@ -235,7 +252,7 @@ class UndoHandler(object):
     self._flist.append(target)
 
   def matrix(self, op):
-    ''' Restores *op*s current matrix upon `revert()`. '''
+    ''' Restores ops current matrix upon :meth:`revert`. '''
 
     ml = op.GetMl()
     def revert_matrix():
@@ -244,7 +261,7 @@ class UndoHandler(object):
 
   def location(self, node):
     ''' Tracks the hierarchical location of *node* and restores it upon
-    `revert()`. This method only supports materials, tags and objects.
+    :meth:`revert`. This method only supports materials, tags and objects.
     This will also remove nodes that were not inserted any where before. '''
 
     pred_node = node.GetPred()
@@ -281,8 +298,8 @@ class UndoHandler(object):
     self._flist.append(revert_hierarchy)
 
   def container(self, node):
-    ''' Grabs a copy of the *node*s :class:`c4d.BaseContainer` and
-    restores it upon `revert()`. '''
+    ''' Grabs a copy of the nodes :class:`c4d.BaseContainer` and
+    restores it upon :meth:`revert`. '''
 
     data = node.GetData()
     def revert_container():
@@ -291,10 +308,10 @@ class UndoHandler(object):
 
   def full(self, node):
     ''' Gets a complete copy of *node* and restores its complete state
-    upon :meth:`revert`. This is like using `c4d.UNDOTYPE_CHANGE` with
-    `c4d.documents.BaseDocument.AddUndo()` except that it does not
+    upon :meth:`revert`. This is like using :data:`c4d.UNDOTYPE_CHANGE`
+    with :meth:`c4d.documents.BaseDocument.AddUndo` except that it does not
     include the hierarchical location. For that, you can use the
-    `location()`. '''
+    :meth:`location`. '''
 
     flags = c4d.COPYFLAGS_NO_HIERARCHY | c4d.COPYFLAGS_NO_BRANCHES
     clone = node.GetClone(flags)
@@ -319,14 +336,14 @@ class TemporaryDocument(object):
   Use the `get()` method to obtain the wrapped *BaseDocument* or catch
   the return value of the context-manager.
 
-  > __Note__: If `detach()` was not called after `attach()` and the
-  > *TemporaryDocument* is being deleted via the garbage collector,
-  > a `RuntimeWarning` will be issued but the document will not be
-  > detached.
+  .. note:: If `detach()` was not called after `attach()` and the
+    *TemporaryDocument* is being deleted via the garbage collector,
+    a `RuntimeWarning` will be issued but the document will not be
+    detached.
 
-  > __Important__: The *TemporaryDocument* will not expect that the
-  > internal `BaseDocument` might actually be removed by any other
-  > mechanism but the :meth:`detach` method. '''
+  .. important:: The *TemporaryDocument* will not expect that the
+    internal `BaseDocument` might actually be removed by any other
+    mechanism but the :meth:`detach` method. '''
 
   __slots__ = ('_bdoc', '_odoc')
 

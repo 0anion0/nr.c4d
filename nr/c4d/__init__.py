@@ -19,6 +19,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+''' This package is a collection of classes and functions that are
+useful for Cinema 4D Python Plugin development and scripting. '''
 
 __author__ = 'Niklas Rosenstein <rosensteinniklas(at)gmail.com>'
 __version__ = '2.0.0-dev'
