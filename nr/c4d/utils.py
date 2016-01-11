@@ -188,6 +188,9 @@ def move_axis(obj, new_axis=c4d.Matrix()):
 
   .. code-block:: python
 
+    import c4d
+    from nr.c4d.utils import move_axis
+
     # Rotate the axis of an object by 45 Degrees around the X axis.
     doc.AddUndo(c4d.UNDOTYPE_HIERARCHY_PSR, op)
     mat = op.GetMl() * c4d.utils.MatrixRotX(c4d.utils.Rad(45))
