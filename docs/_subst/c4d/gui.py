@@ -1,4 +1,6 @@
 # -*- coding: utf8; -*-
 
-class GeUserArea(object):
+from . import _unconst
+
+class GeUserArea(_unconst):
   pass

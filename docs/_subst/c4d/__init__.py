@@ -1,17 +1,17 @@
 # -*- coding: utf8; -*-
 ''' Fake of the C4D package. '''
 
+class _unconst(object):
+  def __init__(self):
+    raise RuntimeError('objects of fake "c4d" must not be constructed')
+
 FILESELECTTYPE_ANYTHING = 0
 FILESELECT_LOAD = 0
 
-class Matrix(object):
-  def __init__(self):
-    pass
-  def __repr__(self):
-    return '<c4d.Matrix (unit)>'
+class Matrix(_unconst):
   pass
 
-class Vector(object):
+class Vector(_unconst):
   pass
 
-from . import utils, gui
+from . import gui

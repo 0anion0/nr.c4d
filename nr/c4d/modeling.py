@@ -68,15 +68,20 @@ class Kernel(object):
       raise Error("Triangulate failed")
 
   @staticmethod
-  def untriangulate(obj, angle_rad=c4d.utils.Rad(0.1)):
+  def untriangulate(obj, angle_rad=None):
     ''' Untriangulates the PolygonObject *obj* in place.
 
+    :param obj: The :class:`c4d.PolygonObject` to untriangulate.
+    :param angle_rad: The untriangulate angle radius. Defaults to 0.1°.
     :raise TypeError: If *obj* is not a PolygonObject.
     :raise Error: When an unexpected error occurs.
     '''
 
     if not isinstance(obj, c4d.PolygonObject):
       raise TypeError("<obj> must be a PolygonObject", type(obj))
+
+    if angle_rad is None:
+      angle_rad = c4d.utils.Rad(0.1)
 
     bc = c4d.BaseContainer()
     bc.SetFloat(c4d.MDATA_UNTRIANGULATE_ANGLE_RAD, angle_rad)

@@ -456,7 +456,7 @@ def duplicate_object(obj, n=None):
   return clones
 
 
-def move_axis(obj, new_axis=c4d.Matrix()):
+def move_axis(obj, new_axis):
   ''' Simulate the "Axis Move" mode in Cinema 4D. This function moves
   the axis of a :class:`c4d.BaseObject` to the specified *new_axis* in
   *local space*. Child objects will remain at their original position
@@ -474,7 +474,7 @@ def move_axis(obj, new_axis=c4d.Matrix()):
     move_axis(op, mat)
 
   :param obj: :class:`c4d.BaseObject`
-  :param new_axis: :class:`c4d.Matrix` '''
+  :param new_axis: :class:`c4d.Matrix` -- The new object axis. '''
 
   mat = ~new_axis * obj.GetMl()
   if obj.CheckType(c4d.Opoint):
