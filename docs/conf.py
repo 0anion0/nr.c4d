@@ -188,7 +188,7 @@ html_static_path = ['_static']
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
+html_show_sourcelink = True
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 #html_show_sphinx = True
@@ -219,7 +219,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'nrc4ddoc'
+htmlhelp_basename = 'nr.c4d-doc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -304,4 +304,7 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {
+  'https://docs.python.org/': None,
+  'https://developers.maxon.net/docs/Cinema4DPythonSDK/html/': None,
+}

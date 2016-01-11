@@ -179,15 +179,24 @@ def load_bitmap(filename):
   return bmp
 
 
-def move_axis(obj, new_matrix=c4d.Matrix()):
-  ''' Normalize the axis of an object by adjusting the local
-  matrix of the child objects and, if *obj* is a polygon object,
-  it's points. Simulates the 'Axis Move' mode in Cinema.
+def move_axis(obj, new_axis=c4d.Matrix()):
+  ''' Simulate the "Axis Move" mode in Cinema 4D. This function moves
+  the axis of a :class:`c4d.BaseObject` to the specified *new_axis* in
+  *local space*. Child objects will remain at their original position
+  relative to *global space*. If *obj* is a :class:`c4d.PointObject`,
+  same applies for the object's points.
+
+  .. code-block:: python
+
+    # Rotate the axis of an object by 45 Degrees around the X axis.
+    doc.AddUndo(c4d.UNDOTYPE_HIERARCHY_PSR, op)
+    mat = op.GetMl() * c4d.utils.MatrixRotX(c4d.utils.Rad(45))
+    move_axis(op, mat)
 
   :param obj: :class:`c4d.BaseObject`
-  :param new_matrix: :class:`c4d.Matrix` '''
+  :param new_axis: :class:`c4d.Matrix` '''
 
-  mat = ~new_matrix * obj.GetMl()
+  mat = ~new_axis * obj.GetMl()
   if obj.CheckType(c4d.Opoint):
     points = [p * mat for p in obj.GetAllPoints()]
     obj.SetAllPoints(points)
@@ -195,7 +204,7 @@ def move_axis(obj, new_matrix=c4d.Matrix()):
 
   for child in obj.GetChildren():
     child.SetMl(mat * child.GetMl())
-  obj.SetMl(new_matrix)
+  obj.SetMl(new_axis)
 
 
 def walk(node):
