@@ -1,7 +1,7 @@
 <h1>
   <span>nr.c4d - Cinema 4D Python Toolbox</span>
-  <a href="https://readthedocs.org/projects/nrc4d/badge/?version=latest">
-    <img src="http://nrc4d.readthedocs.org/en/latest/?badge=latest" alt="Documentation Status" />
+  <a href='http://nrc4d.readthedocs.org/en/latest/?badge=latest'>
+    <img src='https://readthedocs.org/projects/nrc4d/badge/?version=latest' alt='Documentation Status' />
   </a>
 </h1>
 
