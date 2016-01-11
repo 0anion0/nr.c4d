@@ -17,6 +17,13 @@
   :members:
   :undoc-members:
 
+:mod:`nr.c4d.misc.octree`
+------------------------------
+
+.. automodule:: nr.c4d.misc.octree
+  :members:
+  :undoc-members:
+
 :mod:`nr.c4d.misc.paramng`
 ------------------------------
 
