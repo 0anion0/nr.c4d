@@ -10,7 +10,6 @@ Functions
 .. autofunction:: nr.c4d.utils.remove_document
 .. autofunction:: nr.c4d.utils.duplicate_object
 .. autofunction:: nr.c4d.utils.iter_timeline
-.. autofunction:: nr.c4d.utils.handle_file_select
 .. autofunction:: nr.c4d.utils.load_bitmap
 .. autofunction:: nr.c4d.utils.move_axis
 .. autofunction:: nr.c4d.utils.walk

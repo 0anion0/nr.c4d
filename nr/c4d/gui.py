@@ -330,3 +330,30 @@ class IconView(ExtendedUserArea):
       result.SetLong(c4d.RESULT_CURSOR, self.cursor)
       return True
     return super(IconView, self).Message(msg, result)
+
+
+
+def handle_file_select(dialog, param, type=c4d.FILESELECTTYPE_ANYTHING,
+  title='', flags=c4d.FILESELECT_LOAD, force_suffix=''):
+  ''' Opens a file selection dialog for which the result will be filled
+  into the parameter in the *dialog* identified with *paramid*. The
+  Cinema 4D filename widget is a little buggy, and using this function
+  is convenient if your dialog uses a string and button widget instead.
+
+  :param dialog: :class:`c4d.gui.GeDialog`
+  :param param: :class:`int` -- The id of the string widget.
+  :param type: :class:`int` -- Passed to `c4d.storage.LoadDialog`
+  :param title: :class:`str` -- See :func:`c4d.storage.LoadDialog`
+  :param flags: :class:`int` -- See :func:`c4d.storage.LoadDialog`
+  :param force_suffix: :class:`str` -- See :func:`c4d.storage.LoadDialog`
+  :return: True if the file selection was handled and the parameter
+    set, False if not.
+  '''
+
+  def_path = dialog.GetString(param)
+  filename = c4d.storage.LoadDialog(type, title, flags, force_suffix, def_path)
+  if filename:
+    dialog.SetString(param, filename)
+    return True
+  return False
+

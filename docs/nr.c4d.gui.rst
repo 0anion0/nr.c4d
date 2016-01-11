@@ -3,6 +3,11 @@
 
 .. automodule:: nr.c4d.gui
 
+Functions
+---------
+
+.. autofunction:: nr.c4d.gui.handle_file_select
+
 Rect Objects
 ------------
 

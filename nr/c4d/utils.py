@@ -17,6 +17,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+''' Common utility functions related to the Cinema 4D API. '''
 
 import c4d
 import warnings
@@ -138,31 +139,6 @@ def iter_timeline(doc, start, end):
     c4d.DRAWFLAGS_ONLY_ACTIVE_VIEW | c4d.DRAWFLAGS_NO_THREAD |
     c4d.DRAWFLAGS_NO_REDUCTION | c4d.DRAWFLAGS_STATICBREAK)
   c4d.GeSyncMessage(c4d.EVMSG_TIMECHANGED)
-
-
-def handle_file_select(dialog, param, type=c4d.FILESELECTTYPE_ANYTHING,
-  title='', flags=c4d.FILESELECT_LOAD, force_suffix=''):
-  ''' Opens a file selection dialog for which the result will be filled
-  into the parameter in the *dialog* identified with *paramid*. The
-  Cinema 4D filename widget is a little buggy, and using this function
-  is convenient if your dialog uses a string and button widget instead.
-
-  :param dialog: :class:`c4d.gui.GeDialog`
-  :param param: :class:`int` -- The id of the string widget.
-  :param type: :class:`int` -- Passed to `c4d.storage.LoadDialog`
-  :param title: :class:`str` -- See :func:`c4d.storage.LoadDialog`
-  :param flags: :class:`int` -- See :func:`c4d.storage.LoadDialog`
-  :param force_suffix: :class:`str` -- See :func:`c4d.storage.LoadDialog`
-  :return: True if the file selection was handled and the parameter
-    set, False if not.
-  '''
-
-  def_path = dialog.GetString(param)
-  filename = c4d.storage.LoadDialog(type, title, flags, force_suffix, def_path)
-  if filename:
-    dialog.SetString(param, filename)
-    return True
-  return False
 
 
 def load_bitmap(filename):
