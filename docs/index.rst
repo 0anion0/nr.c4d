@@ -13,6 +13,7 @@ Contents:
   nr.c4d.modeling
   nr.c4d.utils
   nr.c4d.structures
+  nr.c4d.misc
 
 Indices and tables
 ==================

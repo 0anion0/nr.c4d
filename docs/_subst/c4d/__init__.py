@@ -11,4 +11,7 @@ class Matrix(object):
     return '<c4d.Matrix (unit)>'
   pass
 
+class Vector(object):
+  pass
+
 from . import utils, gui

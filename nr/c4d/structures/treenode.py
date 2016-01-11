@@ -19,13 +19,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-'''
-c4dtools.structures.treenode
-============================
-
-This module provides the `TreeNode` class which can be used to
-build custom hierarchical datastructures.
-'''
+''' This module provides the `TreeNode` class which can be used to
+build custom hierarchical datastructures. '''
 
 
 class TreeNode(object):

@@ -3,16 +3,16 @@
 
 .. automodule:: nr.c4d.structures
 
-OrderedDict Objects
--------------------
+:mod:`nr.c4d.structures.ordereddict`
+------------------------------------
 
-.. autoclass:: nr.c4d.structures.ordereddict.OrderedDict
+.. automodule:: nr.c4d.structures.ordereddict
   :members:
   :undoc-members:
 
-TreeNode Objects
--------------------
+:mod:`nr.c4d.structures.treenode`
+---------------------------------
 
-.. autoclass:: nr.c4d.structures.treenode.TreeNode
+.. automodule:: nr.c4d.structures.treenode
   :members:
   :undoc-members:
