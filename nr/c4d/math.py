@@ -29,3 +29,74 @@ def closest_point_on_line(a, b, p):
   ab_ap = (ap.x * ab.x) + (ap.y * ab.y) + (ap.z * ab.z)
   t = ab_ap / ab2
   return a - ab * t
+
+
+def line_line_intersection(p1, d1, p2, d2, precision=1.0e-7):
+  ''' Calculates the intersection point of the two lines defined
+  by *p1*, *d1* and *p2*, *d2*.
+
+  :param p1: A point on the first line.
+  :param d1: The direction of the first line.
+  :param p2: A point on the second line.
+  :param d2: The direction of the second line.
+  :param precision: The accepted deviation between the components
+    of the linear factors.
+  :return: A :class:`c4d.Vector` if the lines intersect, None otherwise. '''
+
+  # xxx: Where did I find this algorithm??
+
+  a = d1.Cross(d2)
+  b = (p2 - p1).Cross(d2)
+  c = Vector(b.x / a.x, b.y / a.y, b.z / a.z)
+
+  # Now check if the resulting deviation can be accepted.
+  ref = c.x
+  val = ref
+  for v in (c.y, c.z):
+    if abs(v - ref) > precision:
+      return None
+    val += v
+
+  return p1 + d1 * val / 3.0
+
+
+def vmin(a, b, copy=True):
+    ''' Combines the lowest components of the two vectors *a* and *b*
+    into a new vector.
+
+    :param a: The first vector.
+    :param b: The second vector.
+    :param copy: If True, a copy of *a* will be created and returned
+      from this function. Otherwise, *a* will be used and returned
+      directly.
+    '''
+
+    if copy:
+      c = Vector(a)
+    else:
+      c = a
+    if b.x < a.x: c.x = b.x
+    if b.y < a.y: c.y = b.y
+    if b.z < a.z: c.z = b.z
+    return c
+
+
+def vmax(a, b, copy=True):
+    ''' Combines the highest components of the two vectors *a* and *b*
+    into a new vector.
+
+    :param a: The first vector.
+    :param b: The second vector.
+    :param copy: If True, a copy of *a* will be created and returned
+      from this function. Otherwise, *a* will be used and returned
+      directly.
+    '''
+
+    if copy:
+      c = Vector(a)
+    else:
+      c = a
+    if b.x > a.x: c.x = b.x
+    if b.y > a.y: c.y = b.y
+    if b.z > a.z: c.z = b.z
+    return c
