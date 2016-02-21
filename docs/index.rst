@@ -8,6 +8,7 @@ Contents:
 .. toctree::
   :maxdepth: 2
 
+  nr.c4d.geom
   nr.c4d.gui
   nr.c4d.math
   nr.c4d.modeling
